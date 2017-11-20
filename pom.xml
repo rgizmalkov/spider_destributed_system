@@ -11,6 +11,7 @@
     <description>Parent pom</description>
 
     <modules>
+        <module>spider_vo</module>
         <module>web-page-parser</module>
         <module>spider-aggregation</module>
     </modules>
@@ -24,6 +25,9 @@
 
         <commons.io.version>2.5</commons.io.version>
         <commons.validator.version>1.6</commons.validator.version>
+        <jsoup.version>1.7.2</jsoup.version>
+        <spider.vo.version>0.0.1-SNAPSHOT</spider.vo.version>
+        <unirest.version>1.4.9</unirest.version>
     </properties>
 
     <dependencyManagement>
@@ -45,6 +49,28 @@
                 <groupId>commons-validator</groupId>
                 <artifactId>commons-validator</artifactId>
                 <version>${commons.validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mashape.unirest</groupId>
+                <artifactId>unirest-java</artifactId>
+                <version>${unirest.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gmail.rgizmalkov.edu.projects</groupId>
+                <artifactId>spider-vo</artifactId>
+                <version>${spider.vo.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
