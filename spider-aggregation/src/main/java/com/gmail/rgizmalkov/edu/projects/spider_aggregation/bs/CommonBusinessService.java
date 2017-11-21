@@ -1,6 +1,7 @@
 package com.gmail.rgizmalkov.edu.projects.spider_aggregation.bs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gmail.rgizmalkov.edu.projects.vo.WebPage;
 import com.gmail.rgizmalkov.edu.projects.vo.WebPageServiceRequest;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -19,15 +20,13 @@ public class CommonBusinessService {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @SneakyThrows
-    public void goTo(@NonNull String url){
+    public <T> T post(@NonNull WebPageServiceRequest request, Class<T> tClass){
         HttpResponse<JsonNode> accept = Unirest.post("http://localhost:8080/spider/base/get_info")
                 .header("accept", "application/json")
                 .header("content-type", "application/json")
-                .body(mapper.writeValueAsString(new WebPageServiceRequest(
-                        url, Arrays.asList(TITLE, HEADERS, URLS)
-                )))
+                .body(mapper.writeValueAsString(request))
                 .asJson();
 
-        System.out.println(accept);
+        return (T) mapper.readValue(accept.getBody().toString(), tClass);
     }
 }
