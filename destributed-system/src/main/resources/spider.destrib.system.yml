@@ -1,0 +1,26 @@
+master:
+  url:
+  clusters:
+    - ""
+    - ""
+clusters:
+  cluster1:
+      alias:
+      node_max_size:
+      url:
+      node:
+        node1 : ""
+        node2 : ""
+        node3 : ""
+  cluster2:
+        alias:
+        node_max_size:
+        url:
+        node:
+          node1 : ""
+          node2 : ""
+          node3 : ""
+
+
+
+
