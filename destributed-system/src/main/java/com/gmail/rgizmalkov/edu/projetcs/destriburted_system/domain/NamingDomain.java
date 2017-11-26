@@ -6,5 +6,4 @@ public class NamingDomain {
     //Нет DDL
 
     //Имя объекта записи (как бы таблица) - на домен = где лежат записи
-    Map<String, Domain>
 }
