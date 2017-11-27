@@ -12,6 +12,7 @@
 
     <modules>
         <module>spider_vo</module>
+        <module>destributed-system</module>
         <module>web-page-parser</module>
         <module>spider-aggregation</module>
     </modules>
