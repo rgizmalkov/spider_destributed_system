@@ -31,7 +31,6 @@ public class SaveMessage implements Runnable {
 
     @Override
     public void run(){
-        sendAnswer(new TaskResult(10, "EMPTY_REQUEST", null));
         String uid = messageInitialRs.getUid();
         try {
             storage.write(uid, getMessage(uid));
@@ -52,7 +51,12 @@ public class SaveMessage implements Runnable {
         return accept.getBody().toString();
     }
 
+    @SneakyThrows
     private void sendAnswer(TaskResult taskResult){
-        // logic
+        HttpResponse<JsonNode> accept = Unirest.post("")
+                .header("accept", "application/json")
+                .header("content-type", "application/json")
+                .body(mapper.writeValueAsString(taskResult))
+                .asJson();
     }
 }

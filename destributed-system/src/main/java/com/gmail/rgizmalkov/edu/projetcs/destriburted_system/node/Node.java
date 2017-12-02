@@ -46,7 +46,7 @@ public interface Node {
 
 
     /**
-     * Песистировать данные
+     * Персистировать данные
      * @return - Да/нет
      */
     boolean persist();
