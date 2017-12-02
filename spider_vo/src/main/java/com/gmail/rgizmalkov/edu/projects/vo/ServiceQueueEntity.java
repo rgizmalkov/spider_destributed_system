@@ -6,18 +6,16 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Data
-public class ServiceQueueEntity<T extends Serializable> {
+public class ServiceQueueEntity {
     String uid;
-    Class<T> valueClass;
-    T val;
-    Integer hash;
+    String json;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        ServiceQueueEntity<?> that = (ServiceQueueEntity<?>) o;
+        ServiceQueueEntity that = (ServiceQueueEntity) o;
         return Objects.equals(uid, that.uid);
     }
 

@@ -5,33 +5,33 @@ distribution:
     replication: 3
     activeNodes:
       - "Traver"
-      - "Julia"
-      - "Amadey"
-      - "Greg"
-      - "Peter"
-      - "Anna"
+#      - "Julia"
+#      - "Amadey"
+#      - "Greg"
+#      - "Peter"
+#      - "Anna"
   nodes:
-    node1:
+    Traver:
       url: "localhost:8001"
       name: "Traver"
       queue: 300
-    node2:
-      url: "localhost:8002"
-      name: "Julia"
-      queue: 300
-    node3:
-      url: "localhost:8003"
-      name: "Amadey"
-      queue: 300
-    node4:
-      url: "localhost:8004"
-      name: "Greg"
-      queue: 300
-    node5:
-      url: "localhost:8005"
-      name: "Peter"
-      queue: 300
-    node6:
-      url: "localhost:8006"
-      name: "Anna"
-      queue: 300
+#    node2:
+#      url: "localhost:8002"
+#      name: "Julia"
+#      queue: 300
+#    node3:
+#      url: "localhost:8003"
+#      name: "Amadey"
+#      queue: 300
+#    node4:
+#      url: "localhost:8004"
+#      name: "Greg"
+#      queue: 300
+#    node5:
+#      url: "localhost:8005"
+#      name: "Peter"
+#      queue: 300
+#    node6:
+#      url: "localhost:8006"
+#      name: "Anna"
+#      queue: 300

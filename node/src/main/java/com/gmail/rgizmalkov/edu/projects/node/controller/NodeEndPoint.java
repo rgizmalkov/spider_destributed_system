@@ -2,7 +2,7 @@ package com.gmail.rgizmalkov.edu.projects.node.controller;
 
 import com.gmail.rgizmalkov.edu.projects.node.Storage;
 import com.gmail.rgizmalkov.edu.projects.node.task.SaveMessage;
-import com.gmail.rgizmalkov.edu.projects.vo.MessageInitialRs;
+import com.gmail.rgizmalkov.edu.projects.vo.NodeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,10 +25,10 @@ public class NodeEndPoint {
 
     @RequestMapping(
             method = POST,
-            path = "/send_message",
+            path = "/get_message",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public void write(@RequestBody MessageInitialRs request) {
+    public void bell(@RequestBody NodeRequest request) {
         executorService.execute(new SaveMessage(storage, request));
     }
 
