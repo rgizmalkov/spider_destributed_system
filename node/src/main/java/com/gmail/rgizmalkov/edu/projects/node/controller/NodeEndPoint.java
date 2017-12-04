@@ -14,7 +14,7 @@ import java.util.concurrent.Executor;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@RestController
+@RestController("/node")
 public class NodeEndPoint {
 
     @Autowired

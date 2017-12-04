@@ -31,7 +31,7 @@ public class NodeApplication {
 
 
     @Bean
-    public Executor executorService() {
+    public ThreadPoolTaskExecutor executorService() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(corePoolSize);
         executor.setMaxPoolSize(threadsPoolSize);
@@ -39,5 +39,10 @@ public class NodeApplication {
         executor.setThreadNamePrefix("nodeName-");
         executor.initialize();
         return executor;
+    }
+
+    @Bean
+    public Storage storage(){
+        return new Storage();
     }
 }
