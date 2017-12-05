@@ -1,10 +1,12 @@
 package com.gmail.rgizmalkov.edu.projetcs.destriburted_system.master;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.rgizmalkov.edu.projects.vo.NodeResponse;
 import com.gmail.rgizmalkov.edu.projects.vo.ServiceQueueEntity;
 import com.gmail.rgizmalkov.edu.projetcs.destriburted_system.node.QuiteNode;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -13,9 +15,12 @@ import java.util.*;
 @RequestMapping("/master")
 public class MasterSystem {
     public static void main(String[] args) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper()
+                .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true)
+                .configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
+//                .configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
         String uid = UUID.randomUUID().toString();
-        String obj = "VALUE";
+        Object obj = "VALUE";
         ServiceQueueEntity stringServiceQueueEntity = new ServiceQueueEntity();
         stringServiceQueueEntity.setUid(uid);
         stringServiceQueueEntity.setJson(objectMapper.writeValueAsString(obj));
@@ -45,8 +50,11 @@ public class MasterSystem {
         quiteNode.put(entity);
     }
 
-    @GetMapping(path = "/get/{node}/{uid}")
-    public NodeResponse<ServiceQueueEntity> get(@PathVariable String node, @PathVariable String uid){
+    @GetMapping(
+            path = "/get/{node}/{uid}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public @ResponseBody NodeResponse<ServiceQueueEntity> get(@PathVariable String node, @PathVariable String uid){
         QuiteNode quiteNode = quiteNodes.get(node);
         return quiteNode.get(uid);
     }

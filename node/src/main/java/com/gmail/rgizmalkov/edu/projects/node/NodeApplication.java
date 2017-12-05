@@ -20,13 +20,13 @@ public class NodeApplication {
     @Value("${node.name:#{\"node\"}}")
     private String nodeName;
 
-    @Value("${node.threads.maxPoolSize:#{4}")
+    @Value("${node.threads.maxPoolSize:#{4}}")
     private Integer threadsPoolSize;
 
-    @Value("${node.threads.corePoolSize:#{2}")
+    @Value("${node.threads.corePoolSize:#{2}}")
     private Integer corePoolSize;
 
-    @Value("${node.threads.queueCapacity:#{500}")
+    @Value("${node.threads.queueCapacity:#{500}}")
     private Integer queueCapacity;
 
 

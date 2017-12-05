@@ -21,10 +21,12 @@ public class SaveMessage implements Runnable {
 
     private Storage storage;
     private NodeRequest nodeRequest;
+    private final String nodeName;
 
-    public SaveMessage(Storage storage, NodeRequest nodeRequest) {
+    public SaveMessage(Storage storage, NodeRequest nodeRequest, String nodeName) {
         this.storage = storage;
         this.nodeRequest = nodeRequest;
+        this.nodeName = nodeName;
     }
 
     @Override
@@ -41,13 +43,12 @@ public class SaveMessage implements Runnable {
     }
 
     @SneakyThrows
-    private Serializable getMessage(String from, String uid){
-        HttpResponse<JsonNode> accept = Unirest.post(from + uid)
+    private String getMessage(String from, String uid){
+        HttpResponse<JsonNode> accept = Unirest.get(from + "/" + nodeName + "/" + uid)
                 .header("accept", "application/json")
                 .header("content-type", "application/json")
-                .body(mapper.writeValueAsString(uid))
                 .asJson();
-        return accept.getBody().toString();
+        return  accept.getBody().toString().replace("\\", "");
     }
 
     @SneakyThrows

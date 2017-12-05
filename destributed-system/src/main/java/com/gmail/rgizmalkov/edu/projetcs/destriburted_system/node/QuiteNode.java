@@ -90,9 +90,8 @@ public class QuiteNode {
         if (validate(entity)) {
             try {
                 NodeRequest message = new NodeRequest();
-                message.setFrom(selfURL);
+                message.setFrom(selfURL+"/master/get");
                 message.setUid(entity.getUid());
-                message.setMethod("get");
                 outMap.put(entity.getUid(), entity);
                 logger.info(format("Send request from [%s] to [%s] message with uid = %s", selfURL, nodeURL, entity.getUid()));
                 Unirest.post(nodeURL + "/get_message")

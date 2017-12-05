@@ -4,24 +4,28 @@ import com.gmail.rgizmalkov.edu.projects.node.Storage;
 import com.gmail.rgizmalkov.edu.projects.node.task.SaveMessage;
 import com.gmail.rgizmalkov.edu.projects.vo.NodeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.Executor;
+import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@RestController("/node")
+@RestController()
+@RequestMapping("/node")
 public class NodeEndPoint {
 
     @Autowired
-    Executor executorService;
+    ThreadPoolTaskExecutor executorService;
 
     @Autowired
     Storage storage;
+
+    @Value("${node.name}")
+    String name;
 
     @RequestMapping(
             method = POST,
@@ -29,7 +33,23 @@ public class NodeEndPoint {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public void bell(@RequestBody NodeRequest request) {
-        executorService.execute(new SaveMessage(storage, request));
+        executorService.execute(new SaveMessage(storage, request, name));
+    }
+
+    @GetMapping(
+            path = "/data",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public @ResponseBody Map<String, String> data(){
+        return storage.getStorage();
+    }
+
+    @GetMapping(
+            path = "/data/{uid}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public @ResponseBody String get(@PathVariable String uid){
+        return storage.get(uid);
     }
 
     @RequestMapping(
@@ -38,7 +58,7 @@ public class NodeEndPoint {
     )
     public String serverStatus(){
         //logic
-        return null;
+        return name + " is alive!";
     }
 
 }

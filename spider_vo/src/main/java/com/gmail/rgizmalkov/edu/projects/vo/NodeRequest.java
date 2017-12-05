@@ -6,5 +6,4 @@ import lombok.Data;
 public class NodeRequest {
     String from;
     String uid;
-    String method;
 }
