@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.gmail.com.rgizmalkov.edu</groupId>
+    <artifactId>load_data_for_destrib_system</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <spring.version>1.5.8.RELEASE</spring.version>
+
+        <commons.io.version>2.5</commons.io.version>
+        <commons.validator.version>1.6</commons.validator.version>
+        <jsoup.version>1.7.2</jsoup.version>
+        <spider.vo.version>0.0.1-SNAPSHOT</spider.vo.version>
+        <unirest.version>1.4.9</unirest.version>
+        <google.guava.version>22.0</google.guava.version>
+        <apache.commonms.version>3.4</apache.commonms.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>${unirest.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

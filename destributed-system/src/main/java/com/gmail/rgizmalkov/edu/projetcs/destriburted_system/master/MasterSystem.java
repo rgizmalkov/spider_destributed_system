@@ -3,9 +3,15 @@ package com.gmail.rgizmalkov.edu.projetcs.destriburted_system.master;
 import com.gmail.rgizmalkov.edu.projects.vo.NodeResponse;
 import com.gmail.rgizmalkov.edu.projects.vo.ServiceQueueEntity;
 import com.gmail.rgizmalkov.edu.projetcs.destriburted_system.cluster.Cluster;
+import com.gmail.rgizmalkov.edu.projetcs.destriburted_system.create.ClusterStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/master")
@@ -39,24 +45,12 @@ public class MasterSystem {
         );
     }
 
-//    @GetMapping(
-//            path = "/nodes/health"
-//    )
-//    public @ResponseBody
-//    Map<String, List<String>> nodesHealth() {
-//        Map<String, List<String>> map = new HashMap<>();
-//        final String cluster = "Cluster [%s]";
-//        List<String[]> replics = quiteNodes.getReplics();
-//        for (int i = 0; i < replics.size(); i++) {
-//            List<String> hch = new ArrayList<>();
-//            String[] nodesInCluster = replics.get(i);
-//            for (String node : nodesInCluster) {
-//                hch.add(quiteNodes.get(node).nodeHealth());
-//            }
-//            map.put(String.format(cluster, i), hch);
-//        }
-//        return map;
-//    }
+    @GetMapping(
+            path = "/nodes/health"
+    )
+    public @ResponseBody List<ClusterStatus> nodesHealth() {
+        return clusterManager.clustersStatus();
+    }
 
 
 }

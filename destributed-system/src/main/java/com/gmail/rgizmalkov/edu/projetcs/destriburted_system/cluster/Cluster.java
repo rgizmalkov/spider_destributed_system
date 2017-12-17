@@ -3,6 +3,7 @@ package com.gmail.rgizmalkov.edu.projetcs.destriburted_system.cluster;
 import com.gmail.rgizmalkov.edu.projects.vo.AppId;
 import com.gmail.rgizmalkov.edu.projects.vo.NodeResponse;
 import com.gmail.rgizmalkov.edu.projects.vo.ServiceQueueEntity;
+import com.gmail.rgizmalkov.edu.projetcs.destriburted_system.create.ClusterStatus;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -19,7 +20,7 @@ public interface Cluster {
 
     boolean isNodeOnCluster(String node);
 
-    String clusterInfo();
+    ClusterStatus clusterInfo();
     String showNodeDifference();
 
     void hardReset();

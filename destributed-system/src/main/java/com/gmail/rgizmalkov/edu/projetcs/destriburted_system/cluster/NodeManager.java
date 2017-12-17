@@ -1,12 +1,16 @@
 package com.gmail.rgizmalkov.edu.projetcs.destriburted_system.cluster;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.rgizmalkov.edu.projects.vo.NodeRequest;
 import com.gmail.rgizmalkov.edu.projects.vo.NodeResponse;
 import com.gmail.rgizmalkov.edu.projects.vo.ServiceQueueEntity;
 import com.google.common.base.Objects;
 import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +24,7 @@ public class NodeManager {
     private final String nodeUID;
 
     private static final Logger logger = LoggerFactory.getLogger(NodeManager.class);
-    private final static ObjectMapper mapper = new ObjectMapper();
+    private final static ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     private final ConcurrentLinkedQueue<ServiceQueueEntity> queue;
     private final ConcurrentHashMap<String, ServiceQueueEntity> outMap;
@@ -47,13 +51,11 @@ public class NodeManager {
         this.status = Status.OK;
         isServiceAvailable = new AtomicBoolean(true);
         isNeedToHardReset = new AtomicBoolean(false);
+        changeServiceStatusByHealthCheck();
         sendToNode();
     }
 
     public void put(ServiceQueueEntity entity) {
-        if(!isServiceAvailable.get()){
-
-        }
         queue.add(entity);
 
     }
@@ -70,18 +72,23 @@ public class NodeManager {
         }
     }
 
-    public ServiceQueueEntity getFromNode(String uid){
+    public ServiceQueueEntity getFromNode(String uid) {
         try {
-            HttpResponse<String> jsonNodeHttpResponse = Unirest.get(nodeURL + "/date/" + uid).asString();
-            return mapper.readValue(jsonNodeHttpResponse.getBody(), ServiceQueueEntity.class);
+            HttpResponse<JsonNode> jsonNodeHttpResponse = Unirest.get(nodeURL + "/data/" + uid).asJson();
+            return formatJson(jsonNodeHttpResponse.getBody());
         } catch (Exception e) {
             return null;
         }
     }
 
+    private ServiceQueueEntity formatJson(JsonNode body) {
+        JSONObject response = body.getArray().getJSONObject(0).getJSONObject("response");
+        return new ServiceQueueEntity(response.getString("uid"), response.getString("json"));
+    }
+
 
     private void sendToNode() {
-        if(this.thread != null){
+        if (this.thread != null) {
             thread.interrupt();
         }
         this.thread = new Thread(() -> {
@@ -167,30 +174,32 @@ public class NodeManager {
     }
 
 
-
     public void changeServiceStatusByHealthCheck() {
         new Thread(() -> {
-            String nodeHealth = nodeHealth();
-            if (nodeHealth != null && !nodeHealth.isEmpty()) {
-                boolean sign = isServiceAvailable.get();
-                if(!sign){
-                    int size = nodeSize();
-                    if(size == 0){
-                        status = Status.RESET_AFTER_DROPDOWN;
-                    }else {
-                        status = Status.RESET_AFTER_STOP;
+            while (true) {
+                String nodeHealth = nodeHealth();
+                if (nodeHealth != null && !nodeHealth.isEmpty()) {
+                    boolean sign = isServiceAvailable.get();
+                    if (!sign) {
+                        int size = nodeSize();
+                        if (size == 0) {
+                            status = Status.RESET_AFTER_DROPDOWN;
+                        } else {
+                            status = Status.RESET_AFTER_STOP;
+                        }
+                        isServiceAvailable.set(true);
+                        sendToNode();
+                        isNeedToHardReset.set(true);
                     }
-                    isServiceAvailable.set(true);
-                    sendToNode();
-                    isNeedToHardReset.set(true);
+                } else {
+                    status = Status.NOT_WORKING;
+                    isServiceAvailable.set(false);
                 }
-            }else {
-                isServiceAvailable.set(false);
-            }
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
                 /*NuN*/
+                }
             }
         }).start();
     }

@@ -48,7 +48,24 @@ public class SaveMessage implements Runnable {
                 .header("accept", "application/json")
                 .header("content-type", "application/json")
                 .asJson();
-        return  accept.getBody().toString().replace("\\", "").replace("\"", "");
+        return "[" + accept.getBody().toString().replaceAll("\\\\", "") + "]";
+    }
+
+    public static void main(String[] args) {
+        String str = "[\n" +
+                "  {\n" +
+                "    \"severity\": \"OK\",\n" +
+                "    \"code\": 0,\n" +
+                "    \"response\": {\n" +
+                "      \"uid\": \"c451cd81-a473-46b0-9370-ddd550c6cf52\",\n" +
+                "      \"appId\": \"c451cd81-a473-46b0-9370-ddd550c6cf52\",\n" +
+                "      \"json\": \"{~~~~~VALUE[78]~~~~~\"\n" +
+                "    },\n" +
+                "    \"desc\": \"Success get entity from back-map\"\n" +
+                "  }\n" +
+                "]";
+        JsonNode jsonNode = new JsonNode(str);
+
     }
 
     @SneakyThrows

@@ -46,7 +46,7 @@ public class DistributedSystemApplication{
         executor.setThreadNamePrefix("history-");
         executor.initialize();
 
-        Map<String, List<TaskResult>> map = new HashMap<>();
+        Map<String,  Set<TaskResult>> map = new HashMap<>();
 
         YmlMaster master = properties.getMaster();
         Map<String, List<String>> clusters = master.getClusters();
@@ -55,7 +55,7 @@ public class DistributedSystemApplication{
             activeNodes.addAll(clusters.get(s));
         }
         for (String activeNode : activeNodes) {
-            map.put(activeNode, Collections.synchronizedList(new ArrayList<>()));
+            map.put(activeNode, Collections.synchronizedSet(new HashSet<>()));
         }
         return new LocalHistoryController(executor, map);
     }
@@ -66,7 +66,8 @@ public class DistributedSystemApplication{
         YmlMaster master = properties.getMaster();
         String master_host = master.getMaster_host();
         Map<String, List<String>> clustersMap = master.getClusters();
-        for (List<String> nodesOnCluster : clustersMap.values()) {
+        for (String clusterName : clustersMap.keySet()) {
+            List<String> nodesOnCluster = clustersMap.get(clusterName);
             Map<String, NodeManager> map = new HashMap<>();
             for (String node : nodesOnCluster) {
                 YmlNode ymlNode = properties.getNodes().get(node);
@@ -77,7 +78,7 @@ public class DistributedSystemApplication{
                                 ymlNode.getUrl(), master_host, node)
                 );
             }
-            clusters.add(new SpiderCluster(localHistoryController, map));
+            clusters.add(new SpiderCluster(localHistoryController, map, clusterName));
         }
         return clusters;
     }
