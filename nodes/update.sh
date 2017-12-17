@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ## declare an array variable
-declare -a ports=("8001" "8002" "8003" "8004" "8005" "8006")
-location=../node/target
+declare -a ports=("8001" "8002" "8003" "8004" "8005")
+location=../node/target/
 file_name=node-0.0.1-SNAPSHOT.jar
 
 function update () {

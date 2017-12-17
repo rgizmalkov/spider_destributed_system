@@ -35,10 +35,10 @@ public class SaveMessage implements Runnable {
         String from = nodeRequest.getFrom();
         try {
             storage.write(uid, getMessage(from, uid));
-//            sendAnswer(new TaskResult(0, "OK", uid));
+            sendAnswer(new TaskResult(0, "OK", uid, nodeName));
         }catch (Exception ex){
             logger.warn("Error during attempt to save value with id = " + uid);
-//            sendAnswer(new TaskResult(12, "WRITE_ERROR", uid));
+            sendAnswer(new TaskResult(12, "WRITE_ERROR", uid, nodeName));
         }
     }
 
@@ -48,12 +48,12 @@ public class SaveMessage implements Runnable {
                 .header("accept", "application/json")
                 .header("content-type", "application/json")
                 .asJson();
-        return  accept.getBody().toString().replace("\\", "");
+        return  accept.getBody().toString().replace("\\", "").replace("\"", "");
     }
 
     @SneakyThrows
     private void sendAnswer(TaskResult taskResult){
-        HttpResponse<JsonNode> accept = Unirest.post("")
+        HttpResponse<JsonNode> accept = Unirest.post("http://localhost:8080/master/history/set")
                 .header("accept", "application/json")
                 .header("content-type", "application/json")
                 .body(mapper.writeValueAsString(taskResult))

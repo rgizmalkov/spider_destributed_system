@@ -31,6 +31,7 @@
         <spider.vo.version>0.0.1-SNAPSHOT</spider.vo.version>
         <unirest.version>1.4.9</unirest.version>
         <google.guava.version>22.0</google.guava.version>
+        <apache.commonms.version>3.4</apache.commonms.version>
     </properties>
 
     <dependencyManagement>
@@ -47,6 +48,11 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons.io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache.commonms.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-validator</groupId>

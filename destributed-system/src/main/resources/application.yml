@@ -2,17 +2,17 @@
 
 distribution:
   master:
-    url: "http://localhost:8080"
-    name: "master"
-    replication: 3
-    activeNodes:
-      - "Roman"
-      - "Traver"
-      - "Julia"
-      - "Amadey"
-      - "Greg"
-      - "Peter"
-      - "Anna"
+    master_host: "http://localhost:8080/master"
+    clusters:
+      cluster1:
+        - "Roman"
+        - "Traver"
+        - "Julia"
+      cluster2:
+        - "Amadey"
+        - "Greg"
+        - "Peter"
+#      - "Anna"
   nodes:
     Roman:
       url: "http://localhost:7999/node"
@@ -38,7 +38,7 @@ distribution:
       url: "http://localhost:8005/node"
       name: "Peter"
       queue: 300
-    Anna:
-      url: "http://localhost:8006/node"
-      name: "Anna"
-      queue: 300
+#    Anna:
+#      url: "http://localhost:8006/node"
+#      name: "Anna"
+#      queue: 300

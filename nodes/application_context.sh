@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -a ports=("8001" "8002" "8003" "8004" "8005" "8006")
+declare -a ports=("8001" "8002" "8003" "8004" "8005")
 
 function update_application_properties () {
     cd $1

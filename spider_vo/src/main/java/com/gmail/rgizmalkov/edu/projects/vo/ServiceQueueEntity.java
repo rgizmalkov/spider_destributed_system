@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Data
-public class ServiceQueueEntity {
+public class ServiceQueueEntity implements AppId {
     String uid;
     String json;
 
@@ -22,5 +22,15 @@ public class ServiceQueueEntity {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), uid);
+    }
+
+    @Override
+    public String getAppId() {
+        return uid;
+    }
+
+    @Override
+    public void setAppId(String uid) {
+        this.uid = uid;
     }
 }

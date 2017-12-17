@@ -11,6 +11,5 @@ public class NodeResponse<T> {
     int code;
     String severity;
     String desc;
-    String urlForWriteInfo;
     T response;
 }

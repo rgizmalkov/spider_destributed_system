@@ -52,8 +52,7 @@ public class NodeEndPoint {
         return storage.get(uid);
     }
 
-    @RequestMapping(
-            method = GET,
+    @GetMapping(
             path = "/health"
     )
     public String serverStatus(){
@@ -61,4 +60,12 @@ public class NodeEndPoint {
         return name + " is alive!";
     }
 
+
+    @GetMapping(
+            path = "/storage/size"
+    )
+    public int storageSize(){
+        //logic
+        return storage.getStorage().size();
+    }
 }
