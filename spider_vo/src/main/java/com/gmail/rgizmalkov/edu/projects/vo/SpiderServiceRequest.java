@@ -1,8 +1,8 @@
 package com.gmail.rgizmalkov.edu.projects.vo;
 
-import lombok.Data;
+        import lombok.Data;
 
-import java.util.List;
+        import java.util.List;
 
 @Data
 public class SpiderServiceRequest {

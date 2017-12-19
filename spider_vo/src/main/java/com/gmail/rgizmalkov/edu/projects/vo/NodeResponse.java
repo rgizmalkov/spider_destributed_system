@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NodeResponse<T> {
+public class NodeResponse {
     int code;
     String severity;
     String desc;
-    T response;
+    ServiceQueueEntity response;
 }

@@ -45,9 +45,9 @@ public class SpiderCluster implements Cluster {
     }
 
     @Override
-    public <R extends ServiceQueueEntity> NodeResponse<R> writeToOneNode(String node, String uid) {
+    public <R extends ServiceQueueEntity> NodeResponse writeToOneNode(String node, String uid) {
         NodeManager nodeManager = nodesOnCluster.get(node);
-        return (NodeResponse<R>) nodeManager.get(uid);
+        return (NodeResponse) nodeManager.get(uid);
     }
 
 

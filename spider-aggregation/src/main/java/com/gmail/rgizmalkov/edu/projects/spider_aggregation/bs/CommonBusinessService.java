@@ -56,6 +56,7 @@ public class CommonBusinessService {
             }
         }
         newWebPage.setHeaders(newHeaders);
+        newWebPage.setUrl(webPage.getUrl());
 
 
         ServiceQueueEntity serviceQueueEntity = new ServiceQueueEntity();

@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -41,7 +42,12 @@ public class NodeEndPoint {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public @ResponseBody Map<String, String> data(){
-        return storage.getStorage();
+        Map<String, String> map = new HashMap<>();
+        HashMap<String, String> storage = this.storage.getStorage();
+        for (String key : storage.keySet()) {
+            map.put(key, storage.get(key).replaceAll("\\\\", ""));
+        }
+        return map;
     }
 
     @GetMapping(

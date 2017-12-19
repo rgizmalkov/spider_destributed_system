@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -60,30 +61,43 @@ public class NodeManager {
 
     }
 
-    public NodeResponse<ServiceQueueEntity> get(String uid) {
+    public NodeResponse get(String uid) {
         // После получения сообщения об успешной записи отправить в мастер информацию о записанном файле
         ServiceQueueEntity serializableServiceQueueEntity = outMap.remove(uid);
         if (serializableServiceQueueEntity == null) {
             logger.warn(format("Cannot find entity in back map. [uid = %s]", uid));
             //send to info
-            return new NodeResponse<>(10, "WARN", "Cannot find entity in back-map", null);
+            return new NodeResponse(10, "WARN", "Cannot find entity in back-map", null);
         } else {
-            return new NodeResponse<>(0, "OK", "Success get entity from back-map", serializableServiceQueueEntity);
+            return new NodeResponse(0, "OK", "Success get entity from back-map", serializableServiceQueueEntity);
         }
     }
 
     public ServiceQueueEntity getFromNode(String uid) {
         try {
-            HttpResponse<JsonNode> jsonNodeHttpResponse = Unirest.get(nodeURL + "/data/" + uid).asJson();
+            HttpResponse<String> jsonNodeHttpResponse = Unirest.get(nodeURL + "/data/" + uid).asString();
             return formatJson(jsonNodeHttpResponse.getBody());
         } catch (Exception e) {
             return null;
         }
     }
 
-    private ServiceQueueEntity formatJson(JsonNode body) {
-        JSONObject response = body.getArray().getJSONObject(0).getJSONObject("response");
-        return new ServiceQueueEntity(response.getString("uid"), response.getString("json"));
+    private ServiceQueueEntity formatJson(String body) {
+        NodeResponse nodeRequest = null;
+        try {
+            nodeRequest = mapper.readValue(body, NodeResponse.class);
+        } catch (IOException e) {
+            return null;
+        }
+        return nodeRequest.getResponse();
+    }
+
+    public static void main(String[] args) throws IOException {
+        String str =
+                "{\"severity\":\"OK\",\"code\":0,\"response\":{\"uid\":\"c6b56a8c-a65b-4a3a-8599-6e88fbeb6519\",\"appId\":\"c6b56a8c-a65b-4a3a-8599-6e88fbeb6519\",\"json\":\"{\"url\":null,\"head\":null,\"headers\":[{\"scale\":\"h1\",\"text\":\"Star tracker\"},{\"scale\":\"h2\",\"text\":\"See also[edit]\"},{\"scale\":\"h2\",\"text\":\"References[edit]\"},{\"scale\":\"h2\",\"text\":\"Navigation menu\"}],\"title\":\"Star tracker - Wikipedia\",\"urls\":null}\"},\"desc\":\"Success get entity from back-map\"}";
+        System.out.println(str.substring(140));
+        mapper.readValue(str, NodeResponse.class);
+
     }
 
 

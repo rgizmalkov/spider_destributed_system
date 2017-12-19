@@ -48,7 +48,7 @@ public class SaveMessage implements Runnable {
                 .header("accept", "application/json")
                 .header("content-type", "application/json")
                 .asJson();
-        return "[" + accept.getBody().toString().replaceAll("\\\\", "") + "]";
+        return accept.getBody().toString();
     }
 
     public static void main(String[] args) {

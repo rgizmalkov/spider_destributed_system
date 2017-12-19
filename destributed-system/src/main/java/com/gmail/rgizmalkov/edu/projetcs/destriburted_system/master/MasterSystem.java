@@ -35,7 +35,7 @@ public class MasterSystem {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public @ResponseBody
-    NodeResponse<ServiceQueueEntity> get(@PathVariable String node, @PathVariable String uid) {
+    NodeResponse get(@PathVariable String node, @PathVariable String uid) {
         return clusterManager.getByNode(node).map((cluster) -> {
             return cluster.writeToOneNode(node, uid);
         }).orElseThrow(

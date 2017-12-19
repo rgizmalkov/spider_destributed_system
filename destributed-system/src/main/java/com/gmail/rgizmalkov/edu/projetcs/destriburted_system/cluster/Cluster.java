@@ -13,7 +13,7 @@ public interface Cluster {
     <R extends ServiceQueueEntity> void sendMessageToCluster(R obj);
     <R extends ServiceQueueEntity> void sendMessageToOneNode(String uid, R obj);
 
-    <R extends ServiceQueueEntity> NodeResponse<R> writeToOneNode(String node, String uid);
+    <R extends ServiceQueueEntity> NodeResponse writeToOneNode(String node, String uid);
 
     <R extends ServiceQueueEntity> R read(String uid);
     <R extends ServiceQueueEntity> R readFromNode(String node, String uid);
