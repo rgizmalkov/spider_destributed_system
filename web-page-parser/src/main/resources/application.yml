@@ -1,2 +1,3 @@
 server:
   context-path: "/spider"
+  port: 9090

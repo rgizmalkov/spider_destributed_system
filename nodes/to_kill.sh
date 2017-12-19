@@ -1,6 +1,6 @@
 #!/bin/bash
-kill -9 10152
-kill -9 14092
-kill -9 1200
-kill -9 15248
-kill -9 8104
+kill -9 17284
+kill -9 16040
+kill -9 10692
+kill -9 10280
+kill -9 14352
